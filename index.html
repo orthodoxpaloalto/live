@@ -12,7 +12,7 @@
       <div class="inner">
 
         <header>
-          <h1><a href='https://youtu.be/Tj8bjWWY3cY'>Live streaming for Thursday morning - Christmas - January 7th, 2020</a></h1>
+          <h1><a href='https://youtu.be/Tj8bjWWY3cY'>Live streaming for Thursday morning - Christmas (Рождество) - January 7th, 2020</a></h1>
         </header>
         <hr>
         <section id="main_content">          
@@ -42,5 +42,20 @@ Confession and Communion list</a></h2>
           </section>
         </div>  
     </div>
+    <script>
+  window.addEventListener('load', function(e) {
+
+  window.applicationCache.addEventListener('updateready', function(e) {
+    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+      // Browser downloaded a new app cache.
+      // Swap it in and reload the page to get the new hotness.
+      window.applicationCache.swapCache();
+      window.location.reload();
+    } else {
+      console.log("up-to-date");
+    }
+   }, false);
+  }, false);
+    </script>
   </body>
 </html>

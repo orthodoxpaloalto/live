@@ -6,14 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
         const apiUrl = 'https://youtube.googleapis.com/youtube/v3/playlistItems?maxResults=5&part=snippet&playlistId=PLRgAljCAPhB_0XqYtMxW86DUS_zhUJdpv&key=AIzaSyD-5PmfF_JBMkyhAII-PS-kM_T6WU7YY78';
         const loadData =((pageToken) => {
             let url = apiUrl + (pageToken ? "&pageToken=" + pageToken : "");
             $.get(url, (data) => {
-                console.log(data);
                 let nextPageToken = data && data.nextPageToken;
                 let prevPageToken = data && data.prevPageToken;
                 if (data && data.items && data.items.length > 0) {

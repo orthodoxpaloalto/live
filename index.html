@@ -1,23 +1,58 @@
 <!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset='utf-8'>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Streaming from Russian Orthodox Church in Palo Alto</title> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link rel="stylesheet" href="/assets/css/style.css?v=1ef3ab9282fe80540e90ffbdfcdeac195604965c">
-  </head>
 
-  <body>
-    <section class="page-header">
-        <header>
-          <h1><a href='https://youtu.be/Tj8bjWWY3cY'>Live streaming for Thursday morning - Christmas (Рождество 2) - January 7th, 2020</a></h1>
-        </header>
-     </section>
-    
-     <section class="main-content">     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        const apiUrl = 'https://youtube.googleapis.com/youtube/v3/playlistItems?maxResults=5&part=snippet&playlistId=PLRgAljCAPhB_0XqYtMxW86DUS_zhUJdpv&key=AIzaSyD-5PmfF_JBMkyhAII-PS-kM_T6WU7YY78';
+        const loadData =((pageToken) => {
+            let url = apiUrl + (pageToken ? "&pageToken=" + pageToken : "");
+            $.get(url, (data) => {
+                console.log(data);
+                let nextPageToken = data && data.nextPageToken;
+                let prevPageToken = data && data.prevPageToken;
+                if (data && data.items && data.items.length > 0) {
+                    data.items.forEach((e, i) => { 
+                        let id =  (e && e.snippet && e.snippet.resourceId.videoId && e.snippet.resourceId.videoId) || '_';
+                        let title = (e && e.snippet && e.snippet.title) || "Click here to watch live streaming";          
+                        if (i === 0 && !prevPageToken) {
+                            $('#currentLink').html("<a href='https://youtu.be/" + e.snippet.resourceId.videoId + "'>" + title + "</a>");
+                        } else {
+                            $('#previous').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + id +
+                                '" title="' + title + 
+                                '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br>');
+                        }
+                    });
+                }
+                if (nextPageToken) {
+                    $('#down').show();  
+                    $('#down').data("nextPageToken", nextPageToken);
+                }
+             });
+        });
+        $(document).ready(() => {
+            $("#down").hide().click((e) => {
+                e.preventDefault();
+                loadData($('#down').data("nextPageToken"));
+            });       
+            loadData();
+        });
+    </script>
+</head>
+<body>
+<br>
+<!-- -->
+<h1 id="currentLink">
+   LOADING...
+</h1>
+
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="hidden" name="cmd" value="_s-xclick" />
 <input type="hidden" name="hosted_button_id" value="2GET9D48GUG72" />
@@ -26,21 +61,15 @@
 </form>
 <hr>
 
-<h2 id="welcome-to-github-pages"><a href="https://docs.google.com/spreadsheets/d/1EsWccSoZigCBHbP3ANYbQ6_8cWneCMohSswREzziitk/edit?usp=sharing" target="_blank">
-Confession and Communion list</a></h2>
-<br>          
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Tj8bjWWY3cY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<br>
-          
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/2tdFaAhk1vQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <br>
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/8-pPVXmjLgg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div><a href="https://docs.google.com/spreadsheets/d/1EsWccSoZigCBHbP3ANYbQ6_8cWneCMohSswREzziitk/edit?usp=sharing" target="_blank">
+Confession and Communion list</a></div>
 <br>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/aTHGClDbMM8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<br>
-     </section>
-  </body>
+<ul id="previous"> </ul>
+
+<a id="down" href="#"><img alt="" border="0" src="down-arrow.png" height="80"/></a>
+
+
+</body>
 </html>
